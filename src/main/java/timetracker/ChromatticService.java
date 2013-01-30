@@ -55,8 +55,11 @@ public class ChromatticService {
       Session session = sessionProvider.getSession("dms-system", repoService.getCurrentRepository());
 
       ExtendedNamespaceRegistry namespaceRegistry = (ExtendedNamespaceRegistry) session.getWorkspace().getNamespaceRegistry();
-      if (namespaceRegistry.getNamespacePrefixByURI("http://juzu.org/jcr/timetracker")==null)
+      try {
+        String prefix = namespaceRegistry.getNamespacePrefixByURI("http://juzu.org/jcr/timetracker");
+      } catch (javax.jcr.NamespaceException nse) {
         namespaceRegistry.registerNamespace("tt", "http://juzu.org/jcr/timetracker");
+      }
 
       ExtendedNodeTypeManager nodeTypeManager = (ExtendedNodeTypeManager) session.getWorkspace().getNodeTypeManager();
       InputStream is = ChromatticService.class.getResourceAsStream("model/nodetypes.xml");
