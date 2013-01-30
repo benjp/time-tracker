@@ -40,6 +40,7 @@ public class TrackerService {
       {
         columns = session.insert(Columns.class, "columns");
         session.save();
+        createDummyData();
       }
 
     }
